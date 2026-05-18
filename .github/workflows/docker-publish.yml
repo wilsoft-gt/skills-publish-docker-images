@@ -12,17 +12,19 @@ permissions:
 
 
 jobs:
-  build-and-push:
+  build-and-push-docker-image:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
-      - name: Log in to the Container registry
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN}}
-      - name: Build and push docker image
-        run: |
-          docker build . --tag ghcr.io/wilsoft-gt/skills-publish-docker-images/skackoverflown:main
-          docker push ghcr.io/wilsoft-gt/skills-publish-docker-images/skackoverflown:main
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v3
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v6
+      with:
+        context: .
+        push: true
+        platforms: linux/amd64,linux/arm64
+        tags: |
+          ghcr.io/wilsoft-gt/skills-publish-docker-images/stackoverflown:main
+          ghcr.io/wilsoft-gt/skills-publish-docker-images/stackoverflown:${{ github.sha }}
