@@ -24,5 +24,5 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN}}
       - name: Build and push docker image
         run: |
-          docker build . --tag ghcr.io/wilsoft-gt/skills-publish-docker-images/stackoverflown:main
+          docker build . --tag ghcr.io/wilsoft-gt/skills-publish-docker-images/skackoverflown:main
           docker push ghcr.io/wilsoft-gt/skills-publish-docker-images/stackoverflown:main
