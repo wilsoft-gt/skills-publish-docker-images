@@ -1,0 +1,28 @@
+
+name: Docker Publish
+
+on:
+  push: 
+    branches:
+      - main
+
+permissions:
+  contents: read
+  packages: write
+
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Log in to the Container registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN}}
+      - name: Build and push docker image
+        run: |
+          docker build . --tag ghcr.io/wilsoft-gt/skills-publish-docker-images/skackoverflown:main
+          docker push ghcr.io/wilsoft-gt/skills-publish-docker-images/stackoverflown:main
